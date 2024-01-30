@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django 正規表現で入力値チェック</title>
+</head>
+<body>
+    <h1>登録してね</h1>
+    <form action="{% url 'regex_app:confirm' %}" method="POST">
+        {% csrf_token %}
+        <p>
+            <label for="name">Name:
+                <input type="text" name="name" id="name" value="{{ name }}">
+            </label>
+        </p>
+        <p style="color: red;">
+            {% if age == "" %}
+            Ageは1~3桁の半角数字のみで入力してください。
+            {% endif %}
+        </p>
+        <p>
+            <label for="age">Age:
+                <input type="text" name="age" id="age" value="{{age}}">
+            </label>
+        </p>
+        <p style="color: red;">
+            {% if zip_code == "" %}
+            Zip codeは全7桁の半角数字を入力してください。（ハイフンはあってもなくてもOK）
+            {% endif %}
+        </p>
+        <p>
+            <label for="zip_code">Zip code:
+                <input type="text" name="zip_code" id="zip_code" value="{{zip_code}}">
+            </label>
+        </p>
+        <p style="color: red;">
+            {% if tel == "" %}
+            Cell phoneは全9桁の半角数字を入力してください。（ハイフンはあってもなくてもOK）
+            {% endif %}
+        </p>
+        <p>
+            <label for="tel">Cell phone:
+                <input type="text" name="tel" id="tel" value="{{tel}}">
+            </label>
+        </p>
+        <button tupe="submit">送信</button>
+    </form>
+</body>
+</html>
