@@ -3,13 +3,8 @@ from django.shortcuts import render
 import re
 
 def index(request):
-    # エラーメッセージを表示
-    context = {
-        'age': "",
-        'zip_code': "",
-        'tel': "",
-    }
-    return render(request, "regex_app/index.html", context)
+
+    return render(request, "regex_app/index.html")
 
 def confirm(request):
 
@@ -20,7 +15,7 @@ def confirm(request):
     tel = request.POST.get("tel")
 
     # 入力されたが値をチェック
-    checkname = re.sub(" ", "", name)
+    checkname = re.sub("\s", "", name)
     checkage = re.match("[0-9]{1,3}", age)
     checkzip_code = re.match("([0-9]{3}-?[0-9]{4})", zip_code)
     checktel=re.match("([0-9]{3}-?[0-9]{4}-?[0-9]{4})" ,tel)
@@ -34,28 +29,30 @@ def confirm(request):
            "zip_code": checkzip_code.group(),
            "tel": checktel.group(),
         }
-
+        
         return render(request, "regex_app/confirm.html", context)  
-    
+
     #以下 それぞれマッチした値だけを保存
     elif checkage and checkzip_code is not None:
             tel = ""
 
             context = {
-                "name": name,
+                "name": checkname,
                 "age": age,
                 "zip_code": zip_code,
+                'tel': "",
             }
 
-            return render(request, "regex_app:index.html", context)
+            return render(request, "regex_app/index.html", context)
     
 
     elif  checkage and checktel is not None:
             zip_code = ""
 
             context = {
-                "name": name,
+                "name": checkname,
                 "age": age,
+                'zip_code': "",
                 "tel": tel,
             }
 
@@ -66,21 +63,23 @@ def confirm(request):
             age = ""
 
             context = {
-                "name": name,
+                "name": checkname,
+                'age': "",
                 "zip_code": zip_code,
                 "tel": tel,
             }
 
             return render(request, "regex_app/index.html", context)
     
-
     elif  checkage is not None:
             zip_code = ""
             tel = ""
 
             context = {
-                "name": name,
+                "name": checkname,
                 "age": age,
+                'zip_code': "",
+                'tel': "",
             }
 
             return render(request, "regex_app/index.html", context)
@@ -91,11 +90,14 @@ def confirm(request):
             tel = ""
 
             context = {
-                "name": name,
-                "zip_code": zip_code
+                "name": checkname,
+                "age" : "",
+                "zip_code": zip_code,
+                "tel" : "",
             }
 
             return render(request, "regex_app/index.html", context)
+    
     
 
     elif  checktel is not None:
@@ -103,16 +105,22 @@ def confirm(request):
             zip_code = ""
 
             context = {
-                "name": name,
+                "name": checkname,
+                "age" : "",
+                "zip_code" : "",
                 "tel": tel,
             }
 
             return render(request, "regex_app/index.html", context)
     
+
     else:
         
-        context={
-            "name": name,
+        context = {
+            "name": checkname,
+            "age":"",
+            "zip_code":"",
+            "tel":"",
         }
             
         return render(request, "regex_app/index.html", context)
