@@ -32,7 +32,7 @@ def confirm(request):
         
         return render(request, "regex_app/confirm.html", context)  
 
-    #以下 それぞれマッチした値だけを保存
+    #以下 それぞれマッチした値だけを保存、マッチしなかった場合はエラーメッセージを表示
     elif checkage and checkzip_code is not None:
             tel = ""
 
